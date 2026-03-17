@@ -1,0 +1,15 @@
+app = "weather-bot"
+primary_region = "vie"  # Wien, Österreich - NICHT blockiert!
+
+[build]
+  builder = "python"
+  python_version = "3.11"
+
+[env]
+  PYTHONUNBUFFERED = "1"
+
+[processes]
+  worker = "python run_continuous.py"
+
+[[services]]
+  processes = ["worker"]
