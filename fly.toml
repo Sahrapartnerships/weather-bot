@@ -2,8 +2,7 @@ app = "weather-bot"
 primary_region = "vie"  # Wien, Österreich - NICHT blockiert!
 
 [build]
-  builder = "python"
-  python_version = "3.11"
+  dockerfile = "Dockerfile"
 
 [env]
   PYTHONUNBUFFERED = "1"
