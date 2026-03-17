@@ -51,18 +51,63 @@ export POLYGON_PRIVATE_KEY="..."
 python weather_bot.py
 ```
 
-## 🚀 Deploy
+## 🚀 Deploy Optionen
 
-### Option 1: Railway (EU-Ireland)
+### Option 1: Railway (EU-Ireland) - EMPFOHLEN ✅
+**Warum:** Railway EU-Region ist nicht geo-blockiert!
+
 ```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Login (Browser)
 railway login
-railway link
+
+# Link Projekt
+cd weather-bot
+railway init --name weather-bot
+
+# Setze Environment Variables in Railway Dashboard:
+# - POLYMARKET_API_KEY
+# - POLYMARKET_API_SECRET
+# - POLYMARKET_PASSPHRASE
+# - POLYGON_PRIVATE_KEY
+# - WALLET_ADDRESS
+
+# Deploy
 railway up
+
+# Setze Cron Job (alle 30 Minuten)
+railway add --cron "*/30 * * * *" --command "python weather_bot.py"
 ```
 
-### Option 2: GitHub Actions (NUR für nicht-US Regionen!)
-- Workflow läuft alle 30 Minuten
-- Nutzt Secrets aus GitHub
+**Wichtig:** In Railway Dashboard → Settings → Region: **EU-West (Ireland)** wählen!
+
+### Option 2: Hetzner / VPS (Europa)
+```bash
+# Auf EU-Server (nicht DE, nicht UK, nicht FR)
+# z.B.: Schweiz, Österreich, Niederlande (außer NL), etc.
+
+git clone https://github.com/Sahrapartnerships/weather-bot.git
+cd weather-bot
+pip install -r requirements.txt
+
+# Environment setup
+export POLYMARKET_API_KEY="..."
+# ... andere Variablen
+
+# Cron einrichten
+crontab -e
+# */30 * * * * cd /path/to/weather-bot && python weather_bot.py >> cron.log 2>&1
+```
+
+### Option 3: AWS EC2 (eu-west-1: Ireland)
+- Instance in **eu-west-1** (Ireland) starten
+- Nicht eu-west-2 (UK) - UK ist blockiert!
+
+### Option 4: GitHub Actions (NICHT EMPFOHLEN) ❌
+GitHub Actions läuft auf US-Servern → **BLOCKIERT!**
+Nur verwenden wenn du einen Self-Hosted Runner in Europa hast.
 
 ## 📈 Performance Tracking
 
