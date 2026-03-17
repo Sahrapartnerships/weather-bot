@@ -1,5 +1,5 @@
 app = "weather-bot"
-primary_region = "waw"  # Wien, Österreich - NICHT blockiert!
+primary_region = "waw"  # Warschau, Polen - NICHT blockiert!
 
 [build]
   dockerfile = "Dockerfile"
@@ -9,6 +9,3 @@ primary_region = "waw"  # Wien, Österreich - NICHT blockiert!
 
 [processes]
   worker = "python run_continuous.py"
-
-[[services]]
-  processes = ["worker"]
