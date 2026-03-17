@@ -1,0 +1,40 @@
+name: Deploy to Fly.io
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:
+
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+jobs:
+  deploy:
+    name: Deploy Weather Bot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Fly.io CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+        
+      - name: Deploy to Fly.io Vienna
+        run: |
+          echo "🚀 Deploying Weather Bot to Vienna (Austria)..."
+          flyctl deploy --remote-only --region vie --app weather-bot
+          echo "✅ Deploy complete!"
+          
+      - name: Verify Deployment
+        run: |
+          echo "📊 Checking deployment status..."
+          flyctl status --app weather-bot
+          
+      - name: Set Secrets (if not set)
+        run: |
+          echo "🔐 Checking secrets..."
+          flyctl secrets list --app weather-bot || true
+        env:
+          POLYMARKET_API_KEY: ${{ secrets.POLYMARKET_API_KEY }}
+          POLYMARKET_API_SECRET: ${{ secrets.POLYMARKET_API_SECRET }}
+          POLYGON_PRIVATE_KEY: ${{ secrets.POLYGON_PRIVATE_KEY }}
+          WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
