@@ -1,5 +1,5 @@
 app = "weather-bot"
-primary_region = "vie"  # Wien, Österreich - NICHT blockiert!
+primary_region = "waw"  # Wien, Österreich - NICHT blockiert!
 
 [build]
   dockerfile = "Dockerfile"

@@ -21,7 +21,7 @@ jobs:
       - name: Deploy to Fly.io Vienna
         run: |
           echo "🚀 Deploying Weather Bot to Vienna (Austria)..."
-          flyctl deploy --remote-only --region vie --app weather-bot
+          flyctl deploy --remote-only --region waw --app weather-bot
           echo "✅ Deploy complete!"
           
       - name: Verify Deployment
