@@ -51,63 +51,57 @@ export POLYGON_PRIVATE_KEY="..."
 python weather_bot.py
 ```
 
-## 🚀 Deploy Optionen
+## 🚀 Schnell-Deploy (für Live Trading)
 
-### Option 1: Railway (EU-Ireland) - EMPFOHLEN ✅
-**Warum:** Railway EU-Region ist nicht geo-blockiert!
+### Option 1: Fly.io - EMPFOHLEN ✅ (5 Minuten)
+
+**Warum Fly.io:** Server in Wien, Österreich = **NICHT blockiert!**
 
 ```bash
-# Install Railway CLI
-npm install -g @railway/cli
+# 1. Install Fly.io CLI
+curl -L https://fly.io/install.sh | sh
+export PATH="$HOME/.fly/bin:$PATH"
 
-# Login (Browser)
-railway login
+# 2. Login (öffnet Browser)
+flyctl auth login
 
-# Link Projekt
-cd weather-bot
-railway init --name weather-bot
-
-# Setze Environment Variables in Railway Dashboard:
-# - POLYMARKET_API_KEY
-# - POLYMARKET_API_SECRET
-# - POLYMARKET_PASSPHRASE
-# - POLYGON_PRIVATE_KEY
-# - WALLET_ADDRESS
-
-# Deploy
-railway up
-
-# Setze Cron Job (alle 30 Minuten)
-railway add --cron "*/30 * * * *" --command "python weather_bot.py"
-```
-
-**Wichtig:** In Railway Dashboard → Settings → Region: **EU-West (Ireland)** wählen!
-
-### Option 2: Hetzner / VPS (Europa)
-```bash
-# Auf EU-Server (nicht DE, nicht UK, nicht FR)
-# z.B.: Schweiz, Österreich, Niederlande (außer NL), etc.
-
+# 3. Clone Repository
 git clone https://github.com/Sahrapartnerships/weather-bot.git
 cd weather-bot
-pip install -r requirements.txt
 
-# Environment setup
-export POLYMARKET_API_KEY="..."
-# ... andere Variablen
+# 4. Setze Secrets (deine API Keys)
+flyctl secrets set POLYMARKET_API_KEY="dein-api-key"
+flyctl secrets set POLYMARKET_API_SECRET="dein-secret"
+flyctl secrets set POLYMARKET_PASSPHRASE="dein-passphrase"
+flyctl secrets set POLYGON_PRIVATE_KEY="dein-private-key"
+flyctl secrets set WALLET_ADDRESS="deine-wallet-adresse"
 
-# Cron einrichten
-crontab -e
-# */30 * * * * cd /path/to/weather-bot && python weather_bot.py >> cron.log 2>&1
+# 5. Deploy auf Wien!
+flyctl deploy --region vie
+
+# 6. Logs ansehen
+flyctl logs
 ```
 
-### Option 3: AWS EC2 (eu-west-1: Ireland)
-- Instance in **eu-west-1** (Ireland) starten
-- Nicht eu-west-2 (UK) - UK ist blockiert!
+**Fertig!** Bot läuft 24/7 auf Server in Wien (nicht geo-blockiert)
 
-### Option 4: GitHub Actions (NICHT EMPFOHLEN) ❌
-GitHub Actions läuft auf US-Servern → **BLOCKIERT!**
-Nur verwenden wenn du einen Self-Hosted Runner in Europa hast.
+---
+
+### Option 2: Einfaches Deploy-Script
+
+```bash
+git clone https://github.com/Sahrapartnerships/weather-bot.git
+cd weather-bot
+./deploy.sh fly
+```
+
+---
+
+### Option 3: Docker (überall)
+
+```bash
+docker-compose up -d
+```
 
 ## 📈 Performance Tracking
 
